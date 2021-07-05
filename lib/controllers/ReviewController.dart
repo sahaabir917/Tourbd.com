@@ -22,6 +22,7 @@ class ReviewController extends GetxController{
   void fetchReviews(String id) async {
     try{
       isLoading(true);
+      reviewModel.value = [];
       getJwtToken().then((value) async {
         print(value);
         print(id);

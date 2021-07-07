@@ -312,29 +312,25 @@ class _TourDetailsPageState extends State<TourDetailsPage> {
                     SizedBox(
                       height: 8.0,
                     ),
-                    RaisedButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            context: context,
-                            builder: (context) => CommentBottomSheet(index)
-                                // SingleChildScrollView(
-                                //   child: Container(
-                                //     padding: EdgeInsets.only(
-                                //         bottom: MediaQuery.of(context)
-                                //             .viewInsets
-                                //             .bottom),
-                                //     child: CommentBottomSheet(index),
-                                //   ),
-                                // )
-                        );
-                      },
-                      color: Colors.deepOrangeAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      child: Text("Checkout"),
-                      textColor: Colors.white,
+                    Padding(
+                      padding: EdgeInsets.only(left: 15,right: 15),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: RaisedButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                context: context,
+                                builder: (context) => CommentBottomSheet(index));
+                          },
+                          color: Colors.deepOrangeAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          child: Text("Comments"),
+                          textColor: Colors.white,
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 10.0,

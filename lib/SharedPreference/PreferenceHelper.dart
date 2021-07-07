@@ -25,4 +25,10 @@ class PreferenceHelper {
     pref.commit();
   }
 
+  void setUserId(String id) async{
+    pref = await SharedPreferences.getInstance();
+    pref.setString("user_id",id);
+    pref.commit();
+  }
+
 }

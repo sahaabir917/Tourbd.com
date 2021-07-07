@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopx/SharedPreference/PreferenceHelper.dart';
+import 'package:shopx/models/CreateReviewModel.dart';
 import 'package:shopx/models/FailedModel.dart';
 import 'package:shopx/models/LoginModel.dart';
 import 'package:shopx/models/SearchReviewModel.dart';
@@ -56,7 +57,9 @@ class RemoteServices {
     if (response.statusCode == 200) {
       var jsonString = response.body;
       preferenceHelper.setUserData(response.body);
+
       LoginModel loginInfo = loginModelFromJson(response.body);
+      preferenceHelper.setUserId(loginInfo.data.user.id);
       preferenceHelper.setJwtToken(loginInfo.token);
       preferenceHelper.setIsLoggedIn(true);
       return loginModelFromJson(jsonString);
@@ -69,6 +72,31 @@ class RemoteServices {
   }
 
   static Future<dynamic> getAllReview() {}
+
+  static Future<dynamic> createReview(String token, String tour_id, int rating, String userId, String comment) async{
+    var body = {"review": "${comment}", "rating": rating,"tour":tour_id,"user":userId};
+    var response = await client.post(Uri.parse("https://tourguidebd.herokuapp.com/api/v1/reviews"),
+        body: jsonEncode(body),
+        headers: {
+          'Authorization': "Bearer ${token}",
+          "Content-Type": "application/json"
+        }
+    );
+    if(response.statusCode == 201){
+      var jsonString = response.body;
+      CreateReviewModel createReviewModel = createReviewModelFromJson(jsonString);
+      print(jsonString);
+      print(response.body);
+      return createReviewModel;
+    }
+    else {
+      print(response.statusCode);
+      print(response.body);
+      var jsonString = response.body;
+      FailedModel failedModel = failedModelFromJson(jsonString);
+      return failedModel;
+    }
+  }
 
   static Future<dynamic> fetchReviews(String jwttoken, String id) async {
     var response = await client.get(
@@ -94,4 +122,7 @@ class RemoteServices {
     var jwttoken = sharedPreferences.getString("jwtToken");
     return jwttoken;
   }
+
+
+
 }

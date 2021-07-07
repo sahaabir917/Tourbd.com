@@ -16,7 +16,7 @@ class LoginController extends GetxController{
   var name = "".obs;
   var photo = "".obs;
   var role = "".obs;
-  var msg = "".obs;
+  var msg = "UserID : ayls@example.com password : test1234".obs;
 
   FailedModel failedModels = FailedModel();
 
